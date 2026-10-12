@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070c0a"><title>MOSAIC DNA | LAB</title><style>:root{font-family:system-ui,Arial;background:#070c0a;color:#e9fff1}*{box-sizing:border-box}body{margin:0}header{padding:22px 18px;background:linear-gradient(120deg,#10271b,#07110c);border-bottom:1px solid #22663b}h1{margin:0;color:#58ff98;letter-spacing:2px}small,.muted{color:#91b6a0}nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#0c1510;position:sticky;top:0}button,input,textarea{font:inherit}button{border:1px solid #287e49;border-radius:10px;background:#14351f;color:#d9ffe6;padding:10px;cursor:pointer}button.active{background:#24a654;color:#06110a}main{max-width:1100px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:#111c16;border:1px solid #245337;border-radius:16px;padding:18px;margin-bottom:12px}.big{font-size:29px;font-weight:750;color:#5bffa0}.tag{color:#5bffa0;font-weight:bold}input,textarea{background:#08120c;color:white;border:1px solid #346447;border-radius:8px;padding:11px;max-width:100%;width:100%}textarea{min-height:110px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:9px;border-bottom:1px solid #274332;text-align:left}.balls{display:flex;flex-wrap:wrap;gap:7px}.ball{border:1px solid #45f58c;border-radius:50%;height:37px;width:37px;display:grid;place-items:center;background:#153923;font-weight:700}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row input{flex:1;min-width:130px}.scroll{overflow:auto}footer{padding:25px;color:#759784;text-align:center;font-size:12px}</style><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"></head><body><header><small>PLATAFORMA DE PESQUISA • MEGA-SENA</small><h1>◈ MOSAIC DNA</h1><div class="muted">Scientific Lab · Versão 4.2 · Online</div></header><nav id="nav"></nav><main>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070c0a"><title>MOSAIC DNA | LAB</title><style>:root{font-family:system-ui,Arial;background:#070c0a;color:#e9fff1}*{box-sizing:border-box}body{margin:0}header{padding:22px 18px;background:linear-gradient(120deg,#10271b,#07110c);border-bottom:1px solid #22663b}h1{margin:0;color:#58ff98;letter-spacing:2px}small,.muted{color:#91b6a0}nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#0c1510;position:sticky;top:0}button,input,textarea{font:inherit}button{border:1px solid #287e49;border-radius:10px;background:#14351f;color:#d9ffe6;padding:10px;cursor:pointer}button.active{background:#24a654;color:#06110a}main{max-width:1100px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:#111c16;border:1px solid #245337;border-radius:16px;padding:18px;margin-bottom:12px}.big{font-size:29px;font-weight:750;color:#5bffa0}.tag{color:#5bffa0;font-weight:bold}input,textarea{background:#08120c;color:white;border:1px solid #346447;border-radius:8px;padding:11px;max-width:100%;width:100%}textarea{min-height:110px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:9px;border-bottom:1px solid #274332;text-align:left}.balls{display:flex;flex-wrap:wrap;gap:7px}.ball{border:1px solid #45f58c;border-radius:50%;height:37px;width:37px;display:grid;place-items:center;background:#153923;font-weight:700}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row input{flex:1;min-width:130px}.scroll{overflow:auto}footer{padding:25px;color:#759784;text-align:center;font-size:12px}</style><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"></head><body><header><small>PLATAFORMA DE PESQUISA • MEGA-SENA</small><h1>◈ MOSAIC DNA</h1><div class="muted">Scientific Lab · Versão 4.3 · Online</div></header><nav id="nav"></nav><main>
 <section class="card" style="margin:16px auto;max-width:1100px"><strong style="color:#58ff98">● MOSAIC ONLINE</strong><p id="mosaic-online-status">Consulte o último resultado e sincronize concursos individualmente. O acesso direto à CAIXA pode ser bloqueado por CORS.</p><button onclick="mosaicAtualizarOnline()">Consultar e salvar último resultado</button></section><section class="page active" id="dashboard"><h2>Visão geral</h2><div class="grid"><div class="card"><div class="muted">Concursos importados</div><div class="big" id="count">0</div></div><div class="card"><div class="muted">Último concurso na base</div><div class="big" id="latest">—</div></div><div class="card"><div class="muted">Universo de sextetos</div><div class="big">50.063.860</div></div></div><div class="card"><h3>Projeto científico</h3><p>Ambiente dedicado a testar hipóteses contra modelos nulos, registrar evidências e auditar estratégias sem confundir coincidência com previsibilidade.</p><p class="tag">Importe a base histórica em Resultados para ativar as análises locais.</p></div></section>
 <section class="page" id="resultados"><h2>Resultados dos concursos</h2><div class="card"><h3 style="color:#58ff98">Sincronização online • CAIXA</h3><p>Consulte um concurso pelo número ou importe um intervalo em lotes. A sincronização depende de a API permitir acesso pelo navegador (CORS). Nenhum resultado é inventado.</p><div class="row"><input id="onlineContest" type="number" min="1" placeholder="Número do concurso"><button onclick="mosaicFetchOne()">Buscar concurso</button></div><p><button id="syncRecent" onclick="mosaicSyncRecent()">Sincronizar últimos 10</button> <button onclick="mosaicStopSync()">Parar</button></p><p class="muted" id="syncStatus">Aguardando consulta.</p><p class="muted">Para importar todo o histórico de uma só vez, utilize o CSV abaixo. O armazenamento é local neste navegador, não compartilhado entre dispositivos.</p></div><div class="card"><p>Importe CSV com cabeçalho <code>concurso,data,d1,d2,d3,d4,d5,d6</code> (separador vírgula ou ponto e vírgula). Não há resultados oficiais embutidos.</p><input type="file" id="csv" accept=".csv,text/csv"><p class="muted" id="importstatus"></p><button onclick="exportCSV()">Exportar resultados</button> <button onclick="clearData()">Apagar base local</button></div><div class="card"><div class="row"><input id="filter" placeholder="Pesquisar concurso" oninput="renderResults()"><input id="numberfilter" placeholder="Filtrar dezena (01–60)" type="number" min="1" max="60" oninput="renderResults()"></div><p id="found"></p><div class="scroll"><table><thead><tr><th>Concurso</th><th>Data</th><th>Dezenas</th></tr></thead><tbody id="resultsbody"></tbody></table></div></div></section>
 <section class="page" id="laboratorio"><h2>Laboratório de estudos</h2><div class="grid" id="studies"></div></section>
@@ -87,6 +87,61 @@ async function mosaicSyncRecent(){const status=document.getElementById('syncStat
     (failed?' · Último erro: '+reason+'. Clique novamente para retomar.':'');
   }catch(e){status.textContent='Não foi possível iniciar: '+e.message+'. Tente novamente quando a conexão estiver disponível.'}
   finally{busy=false;btn.disabled=false}
+ };
+})();
+</script>
+<script>
+// Laboratório interativo v4.3: resultados calculados somente da base local.
+(function(){
+ const page=document.getElementById('laboratorio');
+ const intro=document.createElement('div');
+ intro.className='card';
+ intro.innerHTML='<h3 class="tag">Executar experimento</h3><p class="muted">Análises descritivas da base local. Resultados históricos não são previsões.</p><div class="grid"><label>Experimento<select id="labType"><option value="freq">Frequência das dezenas</option><option value="cycles">Mini ciclos (3, 4 e 5 concursos)</option><option value="repeat">Persistência entre sorteios</option></select></label><label>Últimos concursos<input type="number" id="labWindow" min="2" max="5000" value="200"></label></div><p><button id="labRun">Executar análise</button></p><div id="labOutput" aria-live="polite"></div>';
+ const style=document.createElement('style');
+ style.textContent='#laboratorio select{background:#08120c;color:#e9fff1;border:1px solid #346447;border-radius:8px;padding:11px;width:100%;margin-top:7px}#laboratorio label{color:#91b6a0}#labOutput table{width:100%}.labbar{height:12px;background:#183e28;border-radius:8px;overflow:hidden;min-width:90px}.labbar i{display:block;height:100%;background:#45f58c}.labmetric{font-size:24px;color:#5bffa0;font-weight:700}';
+ document.head.appendChild(style);
+ page.insertBefore(intro,page.querySelector('#studies'));
+ page.querySelector('#studies').insertAdjacentHTML('beforebegin','<h3>Biblioteca de pesquisas documentadas</h3>');
+ const output=document.getElementById('labOutput');
+ document.getElementById('labRun').onclick=function(){
+  const valid=records.filter(r=>Number.isInteger(r.n)&&Array.isArray(r.d)&&r.d.length===6&&new Set(r.d).size===6&&r.d.every(n=>Number.isInteger(n)&&n>=1&&n<=60)).slice().sort((a,b)=>a.n-b.n);
+  if(valid.length<2){output.textContent='Importe ao menos dois concursos em Resultados para executar os experimentos.';return}
+  const requested=Number(document.getElementById('labWindow').value);
+  if(!Number.isInteger(requested)||requested<2||requested>5000){output.textContent='Informe um período entre 2 e 5000 concursos.';return}
+  const rows=valid.slice(-requested),count=rows.length,kind=document.getElementById('labType').value;
+  const esc=escapeHTML;
+  const summary='<p class="muted">Amostra: '+count+' concursos disponíveis (de '+rows[0].n+' a '+rows[count-1].n+'). As lacunas na base podem afetar análises sequenciais.</p>';
+  if(kind==='freq'){
+   const f=Array(60).fill(0);
+   rows.forEach(r=>r.d.forEach(n=>f[n-1]++));
+   const expected=count/10, max=Math.max(...f,1);
+   const ordered=f.map((v,i)=>({n:i+1,v})).sort((a,b)=>b.v-a.v||a.n-b.n);
+   output.innerHTML=summary+'<p>Esperado por dezena: <strong>'+expected.toFixed(1)+'</strong> ocorrências (10% por concurso).</p><div class="scroll"><table><thead><tr><th>Dezena</th><th>Observado</th><th>Frequência</th><th>Diferença do esperado</th></tr></thead><tbody>'+ordered.map(x=>'<tr><td>'+String(x.n).padStart(2,'0')+'</td><td>'+x.v+'</td><td><div class="labbar"><i style="width:'+(100*x.v/max).toFixed(1)+'%"></i></div></td><td>'+(x.v-expected).toFixed(1)+'</td></tr>').join('')+'</tbody></table></div>';
+  }else if(kind==='cycles'){
+   const sets=[3,4,5],parts=[];
+   for(const w of sets){
+    if(count<w){parts.push('<p>Janela '+w+': dados insuficientes.</p>');continue}
+    let total=0,repeated=0,uniqueSum=0,complete=0;
+    for(let i=0;i+w<=count;i++){
+     const block=rows.slice(i,i+w);
+     if(block.some((r,j)=>j>0&&r.n!==block[j-1].n+1))continue;
+     complete++;
+     const all=block.flatMap(r=>r.d),uniq=new Set(all);
+     uniqueSum+=uniq.size;repeated+=all.length-uniq.size;total+=all.length;
+    }
+    parts.push('<tr><td>'+w+'</td><td>'+complete+'</td><td>'+(complete?(uniqueSum/complete).toFixed(2):'—')+'</td><td>'+(complete?(repeated/complete).toFixed(2):'—')+'</td></tr>');
+   }
+   output.innerHTML=summary+'<p>Janelas móveis completas, sem saltar concursos ausentes. Repetições = total de dezenas sorteadas na janela menos dezenas distintas.</p><div class="scroll"><table><thead><tr><th>Janela</th><th>Amostras</th><th>Dezenas distintas (média)</th><th>Repetições (média)</th></tr></thead><tbody>'+parts.join('')+'</tbody></table></div><p class="muted">Médias descritivas: ainda não constituem teste contra um modelo nulo.</p>';
+  }else{
+   const hist=Array(7).fill(0);let pairs=0,sum=0;
+   for(let i=1;i<count;i++){
+    if(rows[i].n!==rows[i-1].n+1)continue;
+    const hits=rows[i].d.filter(n=>rows[i-1].d.includes(n)).length;
+    hist[hits]++;pairs++;sum+=hits;
+   }
+   if(!pairs){output.textContent='Não há pares de concursos consecutivos na amostra.';return}
+   output.innerHTML=summary+'<p>Pares consecutivos avaliados: <strong>'+pairs+'</strong>. Média observada: <span class="labmetric">'+(sum/pairs).toFixed(3)+'</span> dezenas repetidas. Valor esperado sob sorteios independentes: <strong>0,600</strong>.</p><div class="scroll"><table><thead><tr><th>Repetições</th><th>Pares</th><th>Percentual</th></tr></thead><tbody>'+hist.map((v,i)=>'<tr><td>'+i+'</td><td>'+v+'</td><td>'+(100*v/pairs).toFixed(2)+'%</td></tr>').join('')+'</tbody></table></div><p class="muted">Diferenças em relação a 0,600 não demonstram previsibilidade sem teste estatístico adequado.</p>';
+  }
  };
 })();
 </script>
