@@ -149,7 +149,7 @@ async function mosaicSyncRecent(){const status=document.getElementById('syncStat
 (function(){
 const page=document.getElementById('laboratorio');if(!page)return;
 const panel=document.createElement('div');panel.className='card';
-panel.innerHTML='<h3>Ciclos 60/60 e assinaturas ABCD</h3><p class="muted">Ciclos fecham apenas quando todas as 60 dezenas aparecem. ABCD usa ranking de frequência calculado nos últimos X concursos disponíveis: posições 1–15=A, 16–30=B, 31–45=C, 46–60=D. Empates por dezena crescente. Cada grupo tem 25% das posições, não necessariamente dos sorteios.</p><div class="row"><label>Concurso inicial <input id="dnaFrom" type="number" min="1" value="1"></label><label>Concurso final <input id="dnaTo" type="number" min="1" value="3068"></label><button id="dnaRun">Analisar intervalo</button></div><div id="dnaResult" aria-live="polite"></div>';
+panel.innerHTML='<h3>Ciclos 60/60 e assinaturas ABCD</h3><p class="muted">Ciclos fecham apenas quando todas as 60 dezenas aparecem. ABCD por faixas fixas de dezenas: A=01–15, B=16–30, C=31–45, D=46–60. Cada faixa tem 25% das dezenas; a distribuição observada nos concursos pode variar.</p><div class="row"><label>Concurso inicial <input id="dnaFrom" type="number" min="1" value="1"></label><label>Concurso final <input id="dnaTo" type="number" min="1" value="3068"></label><button id="dnaRun">Analisar intervalo</button></div><div id="dnaResult" aria-live="polite"></div>';
 page.insertBefore(panel,page.querySelector('#studies'));
  const initial=records.filter(r=>Number.isInteger(r.n)).map(r=>r.n);if(initial.length){document.getElementById('dnaFrom').value=Math.min(...initial);document.getElementById('dnaTo').value=Math.max(...initial)}
 const target=document.getElementById('dnaResult');
@@ -158,11 +158,10 @@ document.getElementById('dnaRun').onclick=()=>{
  if(!Number.isInteger(from)||!Number.isInteger(to)||from<1||to<from){target.textContent='Informe um intervalo válido: concurso inicial até concurso final.';return}
  const all=records.filter(r=>Number.isInteger(r.n)&&Array.isArray(r.d)&&r.d.length===6&&new Set(r.d).size===6&&r.d.every(n=>Number.isInteger(n)&&n>=1&&n<=60)).slice().sort((a,b)=>a.n-b.n);
  if(!all.length){target.textContent='Importe resultados antes de executar.';return}
- const data=all.filter(r=>r.n>=from&&r.n<=to),freq=Array(61).fill(0);
+ const data=all.filter(r=>r.n>=from&&r.n<=to);
  if(!data.length){target.textContent='Nenhum concurso disponível no intervalo selecionado. Importe os resultados correspondentes.';return}
- data.forEach(r=>r.d.forEach(n=>freq[n]++));
- const rank=Array.from({length:60},(_,i)=>i+1).sort((a,b)=>freq[b]-freq[a]||a-b);
- const cls={};rank.forEach((n,i)=>cls[n]='ABCD'[Math.floor(i/15)]);
+ // Classes fixas e independentes dos resultados da amostra.
+ const cls={};for(let n=1;n<=60;n++)cls[n]='ABCD'[Math.floor((n-1)/15)];
  const letters={A:0,B:0,C:0,D:0},signatures=new Map();
  const escape=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const table=data.map(r=>{
@@ -187,11 +186,11 @@ document.getElementById('dnaRun').onclick=()=>{
  }
  if(begin!==null)open={from:begin,to:last,covered:seen.size,missing:Array.from({length:60},(_,i)=>i+1).filter(n=>!seen.has(n))};
  const total=data.length*6;
- target.innerHTML='<p class="muted">Intervalo solicitado: '+from+'–'+to+' · Amostra: '+data.length+' concursos disponíveis, '+data[0].n+' a '+data[data.length-1].n+'. Ranking recalculado nesta amostra; não é previsão.</p>'+
+ target.innerHTML='<p class="muted">Intervalo solicitado: '+from+'–'+to+' · Amostra: '+data.length+' concursos disponíveis, '+data[0].n+' a '+data[data.length-1].n+'. ABCD por faixas fixas; não é previsão.</p>'+
  '<h4>Ciclos de cobertura 60/60</h4><p>Fechados: <strong>'+closed.length+'</strong> · Segmentos incompletos por lacunas: '+unknown+'</p>'+
  '<div class="scroll"><table><thead><tr><th>Início</th><th>Fim</th><th>Duração</th></tr></thead><tbody>'+closed.map(c=>'<tr><td>'+c.from+'</td><td>'+c.to+'</td><td>'+c.len+' concursos</td></tr>').join('')+'</tbody></table></div>'+
  (open?'<p>Ciclo aberto: '+open.from+'–'+open.to+' · '+open.covered+'/60 · Faltam: '+open.missing.map(n=>String(n).padStart(2,'0')).join(', ')+'</p>':'<p>Nenhum ciclo aberto no fim da amostra.</p>')+
- '<h4>Legenda ABCD</h4><p>A: posições 1–15 · B: 16–30 · C: 31–45 · D: 46–60 no ranking de frequência desta amostra.</p>'+
+ '<h4>Legenda ABCD</h4><p>A: dezenas 01–15 · B: 16–30 · C: 31–45 · D: 46–60 (faixas fixas, independentes do intervalo).</p>'+
  '<p>'+['A','B','C','D'].map(k=>'<strong>'+k+'</strong>: '+letters[k]+' ('+(100*letters[k]/total).toFixed(1)+'%)').join(' · ')+'</p>'+
  '<h4>Assinaturas mais frequentes</h4><p>'+Array.from(signatures).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,12).map(([sig,n])=>escape(sig)+': '+n).join(' · ')+'</p>'+
  '<h4>Quadro por concurso</h4><p class="muted">Coluna A/B/C/D informa a quantidade de dezenas de cada classe na ordem A / B / C / D.</p>'+
