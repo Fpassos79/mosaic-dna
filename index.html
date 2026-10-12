@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070c0a"><title>MOSAIC DNA | LAB</title><style>:root{font-family:system-ui,Arial;background:#070c0a;color:#e9fff1}*{box-sizing:border-box}body{margin:0}header{padding:22px 18px;background:linear-gradient(120deg,#10271b,#07110c);border-bottom:1px solid #22663b}h1{margin:0;color:#58ff98;letter-spacing:2px}small,.muted{color:#91b6a0}nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#0c1510;position:sticky;top:0}button,input,textarea{font:inherit}button{border:1px solid #287e49;border-radius:10px;background:#14351f;color:#d9ffe6;padding:10px;cursor:pointer}button.active{background:#24a654;color:#06110a}main{max-width:1100px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:#111c16;border:1px solid #245337;border-radius:16px;padding:18px;margin-bottom:12px}.big{font-size:29px;font-weight:750;color:#5bffa0}.tag{color:#5bffa0;font-weight:bold}input,textarea{background:#08120c;color:white;border:1px solid #346447;border-radius:8px;padding:11px;max-width:100%;width:100%}textarea{min-height:110px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:9px;border-bottom:1px solid #274332;text-align:left}.balls{display:flex;flex-wrap:wrap;gap:7px}.ball{border:1px solid #45f58c;border-radius:50%;height:37px;width:37px;display:grid;place-items:center;background:#153923;font-weight:700}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row input{flex:1;min-width:130px}.scroll{overflow:auto}footer{padding:25px;color:#759784;text-align:center;font-size:12px}</style><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"></head><body><header><small>PLATAFORMA DE PESQUISA • MEGA-SENA</small><h1>◈ MOSAIC DNA</h1><div class="muted">Scientific Lab · Versão 4.1 · Online</div></header><nav id="nav"></nav><main>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070c0a"><title>MOSAIC DNA | LAB</title><style>:root{font-family:system-ui,Arial;background:#070c0a;color:#e9fff1}*{box-sizing:border-box}body{margin:0}header{padding:22px 18px;background:linear-gradient(120deg,#10271b,#07110c);border-bottom:1px solid #22663b}h1{margin:0;color:#58ff98;letter-spacing:2px}small,.muted{color:#91b6a0}nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#0c1510;position:sticky;top:0}button,input,textarea{font:inherit}button{border:1px solid #287e49;border-radius:10px;background:#14351f;color:#d9ffe6;padding:10px;cursor:pointer}button.active{background:#24a654;color:#06110a}main{max-width:1100px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:#111c16;border:1px solid #245337;border-radius:16px;padding:18px;margin-bottom:12px}.big{font-size:29px;font-weight:750;color:#5bffa0}.tag{color:#5bffa0;font-weight:bold}input,textarea{background:#08120c;color:white;border:1px solid #346447;border-radius:8px;padding:11px;max-width:100%;width:100%}textarea{min-height:110px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:9px;border-bottom:1px solid #274332;text-align:left}.balls{display:flex;flex-wrap:wrap;gap:7px}.ball{border:1px solid #45f58c;border-radius:50%;height:37px;width:37px;display:grid;place-items:center;background:#153923;font-weight:700}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row input{flex:1;min-width:130px}.scroll{overflow:auto}footer{padding:25px;color:#759784;text-align:center;font-size:12px}</style><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"></head><body><header><small>PLATAFORMA DE PESQUISA • MEGA-SENA</small><h1>◈ MOSAIC DNA</h1><div class="muted">Scientific Lab · Versão 4.2 · Online</div></header><nav id="nav"></nav><main>
 <section class="card" style="margin:16px auto;max-width:1100px"><strong style="color:#58ff98">● MOSAIC ONLINE</strong><p id="mosaic-online-status">Consulte o último resultado e sincronize concursos individualmente. O acesso direto à CAIXA pode ser bloqueado por CORS.</p><button onclick="mosaicAtualizarOnline()">Consultar e salvar último resultado</button></section><section class="page active" id="dashboard"><h2>Visão geral</h2><div class="grid"><div class="card"><div class="muted">Concursos importados</div><div class="big" id="count">0</div></div><div class="card"><div class="muted">Último concurso na base</div><div class="big" id="latest">—</div></div><div class="card"><div class="muted">Universo de sextetos</div><div class="big">50.063.860</div></div></div><div class="card"><h3>Projeto científico</h3><p>Ambiente dedicado a testar hipóteses contra modelos nulos, registrar evidências e auditar estratégias sem confundir coincidência com previsibilidade.</p><p class="tag">Importe a base histórica em Resultados para ativar as análises locais.</p></div></section>
 <section class="page" id="resultados"><h2>Resultados dos concursos</h2><div class="card"><h3 style="color:#58ff98">Sincronização online • CAIXA</h3><p>Consulte um concurso pelo número ou importe um intervalo em lotes. A sincronização depende de a API permitir acesso pelo navegador (CORS). Nenhum resultado é inventado.</p><div class="row"><input id="onlineContest" type="number" min="1" placeholder="Número do concurso"><button onclick="mosaicFetchOne()">Buscar concurso</button></div><p><button id="syncRecent" onclick="mosaicSyncRecent()">Sincronizar últimos 10</button> <button onclick="mosaicStopSync()">Parar</button></p><p class="muted" id="syncStatus">Aguardando consulta.</p><p class="muted">Para importar todo o histórico de uma só vez, utilize o CSV abaixo. O armazenamento é local neste navegador, não compartilhado entre dispositivos.</p></div><div class="card"><p>Importe CSV com cabeçalho <code>concurso,data,d1,d2,d3,d4,d5,d6</code> (separador vírgula ou ponto e vírgula). Não há resultados oficiais embutidos.</p><input type="file" id="csv" accept=".csv,text/csv"><p class="muted" id="importstatus"></p><button onclick="exportCSV()">Exportar resultados</button> <button onclick="clearData()">Apagar base local</button></div><div class="card"><div class="row"><input id="filter" placeholder="Pesquisar concurso" oninput="renderResults()"><input id="numberfilter" placeholder="Filtrar dezena (01–60)" type="number" min="1" max="60" oninput="renderResults()"></div><p id="found"></p><div class="scroll"><table><thead><tr><th>Concurso</th><th>Data</th><th>Dezenas</th></tr></thead><tbody id="resultsbody"></tbody></table></div></div></section>
 <section class="page" id="laboratorio"><h2>Laboratório de estudos</h2><div class="grid" id="studies"></div></section>
@@ -40,42 +40,54 @@ async function mosaicSyncRecent(){const status=document.getElementById('syncStat
  catch(e){status.textContent='Interrompido após '+saved+' concursos: '+e.message+'. A API pode exigir backend/proxy por CORS.'}finally{button.disabled=false}}
 </script>
 <script>
-// MOSAIC DNA 4.1 — sincronização histórica incremental e auditável.
-// Cada execução baixa até 50 concursos; retomar não rebaixa os já armazenados.
+// MOSAIC DNA 4.2 — histórico completo em uma sessão, pausável e retomável.
 (function(){
-const panel=document.querySelector('#resultados .card');
-if(!panel)return;
-const area=document.createElement('div');
-area.innerHTML='<h3 style="color:#58ff98">Histórico completo · sincronização incremental</h3><p class="muted">Importe até 50 concursos ausentes por execução. Repita até completar o histórico. Os dados permanecem neste navegador.</p><p class="row"><button id="mosaicHistoryRun">Importar próximos 50 ausentes</button><button id="mosaicHistoryStop">Parar importação</button></p><p class="muted" id="mosaicHistoryStatus" role="status">Aguardando.</p>';
-panel.appendChild(area);
-let stop=false,busy=false;
-const status=area.querySelector('#mosaicHistoryStatus');
-area.querySelector('#mosaicHistoryStop').onclick=()=>{stop=true;status.textContent+=' · Parada solicitada.'};
-area.querySelector('#mosaicHistoryRun').onclick=async()=>{
- if(busy)return;busy=true;stop=false;
- const btn=area.querySelector('#mosaicHistoryRun');btn.disabled=true;
- let done=0,failed=0,latest;
- try{
-  const newest=await mosaicGetContest();
-  latest=newest.n;
-  if(!records.some(r=>r.n===newest.n))mosaicMerge(newest);
-  const known=new Set(records.map(r=>r.n));
-  const pending=[];
-  for(let n=1;n<=latest&&pending.length<50;n++)if(!known.has(n))pending.push(n);
-  if(!pending.length){status.textContent='Histórico completo até o concurso '+latest+' ('+records.length+' concursos).';return}
-  for(const n of pending){
-   if(stop)break;
-   status.textContent='Importando concurso '+n+' · '+done+'/'+pending.length+' concluídos · '+failed+' falhas.';
-   try{
-    const r=await mosaicGetContest(n);mosaicMerge(r);done++;
-   }catch(e){failed++;status.textContent='Falha no concurso '+n+': '+e.message+'; interrompido para evitar consultas repetidas.';break}
-  }
-  const have=new Set(records.map(r=>r.n));
-  let missing=0;for(let n=1;n<=latest;n++)if(!have.has(n))missing++;
-  status.textContent='Importados nesta execução: '+done+'. Falhas: '+failed+'. Base: '+records.length+'. Ausentes até '+latest+': '+missing+'.'+(stop?' Interrompido.':'');
- }catch(e){status.textContent='Não foi possível iniciar: '+e.message+'. Verifique a rede ou o acesso à CAIXA.'}
- finally{busy=false;btn.disabled=false}
-};
+ const panel=document.querySelector('#resultados .card');
+ if(!panel)return;
+ const area=document.createElement('div');
+ area.innerHTML='<h3 style="color:#58ff98">Histórico completo · sincronização contínua</h3><p class="muted">Importa concursos ausentes, um por vez. Pode pausar e retomar; os dados já salvos são preservados. Mantenha esta aba aberta durante a importação.</p><p class="row"><button id="mosaicHistoryRun">Sincronizar todo o histórico</button><button id="mosaicHistoryStop">Pausar</button></p><p class="muted" id="mosaicHistoryStatus" role="status">Aguardando.</p>';
+ panel.appendChild(area);
+ const btn=area.querySelector('#mosaicHistoryRun');
+ const status=area.querySelector('#mosaicHistoryStatus');
+ let stop=false,busy=false;
+ area.querySelector('#mosaicHistoryStop').onclick=()=>{stop=true;if(busy)status.textContent+=' · Pausa solicitada.'};
+ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ btn.onclick=async()=>{
+  if(busy)return;
+  busy=true;stop=false;btn.disabled=true;
+  let done=0,failed=0,latest=0,reason='';
+  try{
+   const newest=await mosaicGetContest();
+   latest=newest.n;
+   if(!records.some(r=>r.n===latest))mosaicMerge(newest);
+   const known=new Set(records.map(r=>r.n));
+   let pending=0;
+   for(let n=1;n<=latest;n++)if(!known.has(n))pending++;
+   if(!pending){status.textContent='Base completa até '+latest+' ('+records.length+' concursos).';return}
+   for(let n=1;n<=latest;n++){
+    if(stop)break;
+    if(known.has(n))continue;
+    status.textContent='Concurso '+n+' · '+done+'/'+pending+' novos · '+failed+' falhas. Mantenha a aba aberta.';
+    let success=false;
+    for(let attempt=1;attempt<=3&&!stop;attempt++){
+     try{
+      const r=await mosaicGetContest(n);
+      mosaicMerge(r);known.add(n);done++;success=true;break;
+     }catch(e){
+      reason=String(e.message||e);
+      if(attempt<3&&!stop)await pause(1000*attempt);
+     }
+    }
+    if(!success){if(!stop)failed++;break}
+    if(done%10===0)await pause(250);
+   }
+   let missing=0;for(let n=1;n<=latest;n++)if(!known.has(n))missing++;
+   status.textContent=(stop?'Pausado. ':failed?'Interrompido por falha. ':'Execução concluída. ')+
+    'Novos: '+done+' · Falhas: '+failed+' · Total: '+records.length+' · Ausentes até '+latest+': '+missing+
+    (failed?' · Último erro: '+reason+'. Clique novamente para retomar.':'');
+  }catch(e){status.textContent='Não foi possível iniciar: '+e.message+'. Tente novamente quando a conexão estiver disponível.'}
+  finally{busy=false;btn.disabled=false}
+ };
 })();
 </script>
 </body></html>
