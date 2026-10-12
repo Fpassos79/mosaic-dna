@@ -96,7 +96,7 @@ async function mosaicSyncRecent(){const status=document.getElementById('syncStat
  const page=document.getElementById('laboratorio');
  const intro=document.createElement('div');
  intro.className='card';
- intro.innerHTML='<h3 class="tag">Executar experimento</h3><p class="muted">Análises descritivas da base local. Resultados históricos não são previsões.</p><div class="grid"><label>Experimento<select id="labType"><option value="freq">Frequência das dezenas</option><option value="cycles">Mini ciclos (3, 4 e 5 concursos)</option><option value="repeat">Persistência entre sorteios</option></select></label><label>Últimos concursos<input type="number" id="labWindow" min="2" max="5000" value="200"></label></div><p><button id="labRun">Executar análise</button></p><div id="labOutput" aria-live="polite"></div>';
+ intro.innerHTML='<h3 class="tag">Executar experimento</h3><p class="muted">Análises descritivas da base local. Resultados históricos não são previsões.</p><div class="grid"><label>Experimento<select id="labType"><option value="freq">Frequência das dezenas</option><option value="cycles">Mini ciclos (3, 4 e 5 concursos)</option><option value="repeat">Persistência entre sorteios</option></select></label><label>Intervalo compartilhado: use Concurso inicial e Concurso final no painel de ciclos e ABCD</label></div><p><button id="labRun">Executar análise</button></p><div id="labOutput" aria-live="polite"></div>';
  const style=document.createElement('style');
  style.textContent='#laboratorio select{background:#08120c;color:#e9fff1;border:1px solid #346447;border-radius:8px;padding:11px;width:100%;margin-top:7px}#laboratorio label{color:#91b6a0}#labOutput table{width:100%}.labbar{height:12px;background:#183e28;border-radius:8px;overflow:hidden;min-width:90px}.labbar i{display:block;height:100%;background:#45f58c}.labmetric{font-size:24px;color:#5bffa0;font-weight:700}';
  document.head.appendChild(style);
@@ -106,11 +106,12 @@ async function mosaicSyncRecent(){const status=document.getElementById('syncStat
  document.getElementById('labRun').onclick=function(){
   const valid=records.filter(r=>Number.isInteger(r.n)&&Array.isArray(r.d)&&r.d.length===6&&new Set(r.d).size===6&&r.d.every(n=>Number.isInteger(n)&&n>=1&&n<=60)).slice().sort((a,b)=>a.n-b.n);
   if(valid.length<2){output.textContent='Importe ao menos dois concursos em Resultados para executar os experimentos.';return}
-  const requested=Number(document.getElementById('labWindow').value);
-  if(!Number.isInteger(requested)||requested<2||requested>5000){output.textContent='Informe um período entre 2 e 5000 concursos.';return}
-  const rows=valid.slice(-requested),count=rows.length,kind=document.getElementById('labType').value;
+  const from=Number(document.getElementById('dnaFrom').value),to=Number(document.getElementById('dnaTo').value);
+  if(!Number.isInteger(from)||!Number.isInteger(to)||from<1||to<from){output.textContent='Informe um intervalo histórico válido no painel de ciclos e ABCD.';return}
+  const rows=valid.filter(r=>r.n>=from&&r.n<=to),count=rows.length,kind=document.getElementById('labType').value;
+  if(count<2){output.textContent='O intervalo selecionado precisa conter ao menos dois concursos importados.';return}
   const esc=escapeHTML;
-  const summary='<p class="muted">Amostra: '+count+' concursos disponíveis (de '+rows[0].n+' a '+rows[count-1].n+'). As lacunas na base podem afetar análises sequenciais.</p>';
+  const summary='<p class="muted">Intervalo '+from+'–'+to+' · Amostra: '+count+' concursos disponíveis (de '+rows[0].n+' a '+rows[count-1].n+'). As lacunas na base podem afetar análises sequenciais.</p>';
   if(kind==='freq'){
    const f=Array(60).fill(0);
    rows.forEach(r=>r.d.forEach(n=>f[n-1]++));
@@ -120,7 +121,7 @@ async function mosaicSyncRecent(){const status=document.getElementById('syncStat
   }else if(kind==='cycles'){
    const sets=[3,4,5],parts=[];
    for(const w of sets){
-    if(count<w){parts.push('<p>Janela '+w+': dados insuficientes.</p>');continue}
+    if(count<w){parts.push('<tr><td>'+w+'</td><td>0</td><td>—</td><td>—</td></tr>');continue}
     let total=0,repeated=0,uniqueSum=0,complete=0;
     for(let i=0;i+w<=count;i++){
      const block=rows.slice(i,i+w);
@@ -149,7 +150,7 @@ async function mosaicSyncRecent(){const status=document.getElementById('syncStat
 (function(){
 const page=document.getElementById('laboratorio');if(!page)return;
 const panel=document.createElement('div');panel.className='card';
-panel.innerHTML='<h3>Ciclos 60/60 e assinaturas ABCD</h3><p class="muted">Ciclos fecham apenas quando todas as 60 dezenas aparecem. ABCD usa ranking de frequência calculado nos últimos X concursos disponíveis: posições 1–15=A, 16–30=B, 31–45=C, 46–60=D. Empates por dezena crescente. Cada grupo tem 25% das posições, não necessariamente dos sorteios.</p><div class="row"><label>Concurso inicial <input id="dnaFrom" type="number" min="1" value="1"></label><label>Concurso final <input id="dnaTo" type="number" min="1" value="3068"></label><button id="dnaRun">Analisar intervalo</button></div><div id="dnaResult" aria-live="polite"></div>';
+panel.innerHTML='<h3>Ciclos 60/60 e assinaturas ABCD</h3><p class="muted">Ciclos fecham apenas quando todas as 60 dezenas aparecem. ABCD usa ranking de frequência calculado no intervalo histórico selecionado: posições 1–15=A, 16–30=B, 31–45=C, 46–60=D. Empates por dezena crescente. Cada grupo tem 25% das posições, não necessariamente dos sorteios.</p><div class="row"><label>Concurso inicial <input id="dnaFrom" type="number" min="1" value="1"></label><label>Concurso final <input id="dnaTo" type="number" min="1" value="3068"></label><button id="dnaRun">Analisar intervalo</button></div><div id="dnaResult" aria-live="polite"></div>';
 page.insertBefore(panel,page.querySelector('#studies'));
  const initial=records.filter(r=>Number.isInteger(r.n)).map(r=>r.n);if(initial.length){document.getElementById('dnaFrom').value=Math.min(...initial);document.getElementById('dnaTo').value=Math.max(...initial)}
 const target=document.getElementById('dnaResult');
